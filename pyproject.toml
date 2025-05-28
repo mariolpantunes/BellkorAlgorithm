@@ -5,8 +5,6 @@ description = "An implementation of the “BellKors Pragmatic Chaos”'s final s
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "ipython>=8.31.0",
-    "notebook>=7.3.2",
     "numpy>=2.2.1",
     "pandas>=2.2.3",
     "pytest-xdist>=3.6.1",
