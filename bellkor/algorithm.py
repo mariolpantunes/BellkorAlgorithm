@@ -13,7 +13,6 @@ from bellkor.parameters.learning_rate import LearningRates
 from bellkor.parameters.parameter import Parameters
 from bellkor.parameters.regularisation import RegularisationRates
 from bellkor.parameters.row import RowSettings
-from bellkor.utils.decorator import test_method, timeit, timeit_debug
 from bellkor.utils.error import ModelIterationException, ModelValidationException
 
 module_logger = logging.getLogger("bellkor.bellkorAlgorithm")
@@ -51,7 +50,7 @@ class BellkorAlgorithm(Model):
     def __repr__(self):
         return "< bellkor Algorithm >"
 
-    @timeit
+    
     def __init__(
         self,
         n_items: int,
@@ -128,7 +127,7 @@ class BellkorAlgorithm(Model):
         self._validation()
         logger.debug("Initiation of the bellkor Algorithm ended")
 
-    @timeit_debug
+    
     def _validation(self):
         """Ensure the Model has been Initialised Correctly
 
@@ -150,8 +149,7 @@ class BellkorAlgorithm(Model):
         if self.COST != 0 or self.TOTAL_ERROR != 0 or self.NUM != 0:
             self.COST, self.TOTAL_ERROR, self.NUM = 0, 0, 0
 
-    @timeit_debug
-    @test_method(enable=False, model="Algorithm", test="override_rates")
+    
     def override_rates(self, lr: LearningRates = None, reg: RegularisationRates = None):
         """Call this function before running the bellkor Algorithm
 
@@ -170,8 +168,7 @@ class BellkorAlgorithm(Model):
             logger.info("Updating the Regularisation Rates")
             self.REGULARISATION = reg
 
-    @timeit
-    @test_method(enable=False, model="Algorithm", test="predict")
+
     def predict(self, x: np.ndarray, average_times: dict) -> np.ndarray:
         """Predict the re-adjusted Rating in X.
 
@@ -213,8 +210,7 @@ class BellkorAlgorithm(Model):
         # Return Results
         return np.array(collected_results)
 
-    @timeit
-    @test_method(enable=False, model="Algorithm", test="train")
+
     def train(
         self,
         x: np.ndarray,
@@ -275,8 +271,7 @@ class BellkorAlgorithm(Model):
         # Return Results
         return self.COST / self.NUM, self.TOTAL_ERROR / self.NUM
 
-    @timeit_debug
-    @test_method(enable=False, model="Algorithm", test="run_bellkor")
+    
     def run_bellkor(self, rs: RowSettings, average_times: dict) -> tuple[float, RowSettings]:
         """Bellkor Algorithm
 
@@ -309,8 +304,7 @@ class BellkorAlgorithm(Model):
         logger.debug(f"Model Prediction: {output}")
         return output, rs
 
-    @timeit_debug
-    @test_method(enable=False, model="Algorithm", test="compute_cost")
+    
     def compute_cost(self, rating: float, prediction: float, rs: RowSettings) -> float:
         """Compute the Error and Cost for a given rating and prediction
 
@@ -342,7 +336,7 @@ class BellkorAlgorithm(Model):
 
         return error
 
-    @timeit_debug
+    
     def gradient_decent(self, error, rs: RowSettings):
         """Update the Parameters using Gradient Decent
 
@@ -368,8 +362,7 @@ class BellkorAlgorithm(Model):
 
         logger.debug(f"Gradient Descent: U: {rs.User}, M: {rs.Movie}")
 
-    @timeit_debug
-    @test_method(enable=False, model="Algorithm", test="get_params")
+
     def get_params(self) -> type[Parameters]:
         """Get the Model Parameters
 
@@ -378,8 +371,7 @@ class BellkorAlgorithm(Model):
         """
         return self.PARAMS
 
-    @timeit_debug
-    @test_method(enable=False, model="Algorithm", test="get_row_settings")
+    
     def get_row_settings(self, inputs):
         """Get the Row Settings
 
@@ -424,8 +416,7 @@ class BellkorAlgorithm(Model):
         logger.debug(f"Row Setting: {rs}")
         return rs
 
-    @timeit_debug
-    @test_method(enable=False, model="Algorithm", test="get_gradients")
+    
     def get_gradients(self, rs, error) -> Gradients:
         """Compute the Gradients
 
